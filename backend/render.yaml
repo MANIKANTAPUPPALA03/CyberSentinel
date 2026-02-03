@@ -1,0 +1,8 @@
+# Render deployment configuration
+# Uses uvicorn to serve FastAPI
+
+# Build command
+build: pip install -r requirements.txt
+
+# Start command  
+start: uvicorn main:app --host 0.0.0.0 --port $PORT

@@ -1,5 +1,11 @@
+// API Configuration
+// For local development: http://127.0.0.1:8000
+// For production: Replace with your Render backend URL
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 export async function analyzeUrl(url: string) {
-    const response = await fetch("http://127.0.0.1:8000/analyze-url", {
+    const response = await fetch(`${API_BASE_URL}/analyze-url`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
