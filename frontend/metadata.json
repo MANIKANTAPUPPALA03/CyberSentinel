@@ -1,0 +1,5 @@
+{
+  "name": "CyberSentinel - URL Trust Analyzer",
+  "description": "A high-security, dark-themed dashboard for analyzing website safety, domain reputation, and technical security metrics using AI-driven insights.",
+  "requestFramePermissions": []
+}

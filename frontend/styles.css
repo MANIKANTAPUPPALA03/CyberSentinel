@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #fff;
+}
+
+.container {
+    width: 400px;
+    margin: 100px auto;
+    text-align: center;
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+}
+
+button {
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+#genuine {
+    color: #22c55e;
+}
+
+#suspicious {
+    color: #facc15;
+}
+
+#malicious {
+    color: #ef4444;
+}
