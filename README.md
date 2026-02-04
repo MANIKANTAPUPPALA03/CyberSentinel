@@ -56,14 +56,20 @@ CyberSentinel is a **full-stack, ML-powered URL trust analysis platform** that h
 
 ## 🧱 System Architecture
 
+
 ```mermaid
-graph TD;
-    A[Frontend (React + TypeScript + Tailwind)] -->|POST /analyze-url| B(Backend (FastAPI));
-    B --> C[Feature 1: URL & Network Info];
-    B --> D[Feature 2: Domain / WHOIS];
-    B --> E[Feature 3: ML Risk Model];
-    B --> F[Feature 4: Threat Intelligence APIs];
-    B --> G[Feature 5: Trust Engine];
+graph TD
+    A[Frontend - React TypeScript Tailwind]
+    B[Backend - FastAPI]
+
+    A -->|Analyze URL| B
+
+    B --> C[Feature 1 - URL and Network Info]
+    B --> D[Feature 2 - Domain and WHOIS]
+    B --> E[Feature 3 - ML Risk Model]
+    B --> F[Feature 4 - Threat Intelligence]
+    B --> G[Feature 5 - Trust Engine]
+
 ```
 
 ---
