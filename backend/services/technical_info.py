@@ -73,7 +73,7 @@ def get_tls_version(domain: str) -> str:
     """Get TLS version used by the server."""
     try:
         context = ssl.create_default_context()
-        with socket.create_connection((domain, 443), timeout=5) as sock:
+        with socket.create_connection((domain, 443), timeout=2) as sock:
             with context.wrap_socket(sock, server_hostname=domain) as ssock:
                 return ssock.version() or "Unknown"
     except Exception:
@@ -104,7 +104,7 @@ def extract_technical_info(url: str, basic_info: Dict[str, Any]) -> Dict[str, An
     
     try:
         # Make request to get headers
-        response = requests.head(url, timeout=5, allow_redirects=True)
+        response = requests.head(url, timeout=2, allow_redirects=True)
         headers = dict(response.headers)
         
         # Extract server header

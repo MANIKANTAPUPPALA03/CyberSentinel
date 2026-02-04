@@ -53,7 +53,7 @@ def check_google_safe_browsing(url: str) -> Dict[str, Any]:
             }
         }
         
-        response = requests.post(api_url, json=payload, timeout=5)
+        response = requests.post(api_url, json=payload, timeout=3)
         
         if response.status_code == 200:
             data = response.json()
@@ -108,7 +108,7 @@ def check_virustotal(url: str) -> Dict[str, Any]:
         
         api_url = f"https://www.virustotal.com/api/v3/urls/{url_id}"
         
-        response = requests.get(api_url, headers=headers, timeout=10)
+        response = requests.get(api_url, headers=headers, timeout=5)
         
         if response.status_code == 200:
             data = response.json()
