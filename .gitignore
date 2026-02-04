@@ -15,8 +15,9 @@ dist/
 build/
 
 # ML Model (large file - regenerate with train_model.py)
-backend/ml/model.pkl
-*.pkl
+# backend/ml/model.pkl
+# *.pkl
+!backend/ml/model.pkl
 
 # Dataset files (large)
 backend/ml/*.csv

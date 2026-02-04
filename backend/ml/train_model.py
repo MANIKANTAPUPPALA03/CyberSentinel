@@ -25,8 +25,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 print("Training optimized model...")
 model = RandomForestClassifier(
-    n_estimators=300,           # More trees
-    max_depth=20,               # Prevent overfitting
+    n_estimators=50,            # Reduced from 300 for smaller size
+    max_depth=12,               # Reduced from 20 to prevent overfitting and size
     min_samples_split=5,
     min_samples_leaf=2,
     class_weight="balanced",    # Handle imbalanced classes
@@ -45,5 +45,6 @@ print("\nTop 10 most important features:")
 for name, imp in importances[:10]:
     print(f"  {name}: {imp:.4f}")
 
-joblib.dump(model, "model.pkl")
+# Save with compression to reduce file size
+joblib.dump(model, "model.pkl", compress=3)
 print("\nModel saved to model.pkl")

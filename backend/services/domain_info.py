@@ -28,22 +28,68 @@ def extract_domain_info(domain: str):
     }
     
     # Skip WHOIS on Render to prevent timeout/blocking (Port 43 is blocked)
+    # Use RDAP (HTTPS) instead
     if os.environ.get("RENDER"):
-        print("[WHOIS] Skipping WHOIS on Render environment (Port 43 blocked)")
+        print("[WHOIS] Using RDAP fallback on Render (Port 43 blocked)")
+        try:
+            import requests
+            rdap_url = f"https://rdap.org/domain/{domain}"
+            response = requests.get(rdap_url, timeout=5)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Extract events (dates)
+                events = data.get("events", [])
+                for event in events:
+                    action = event.get("eventAction")
+                    date_str = event.get("eventDate")
+                    
+                    if action == "registration":
+                        creation_date = date_str.split("T")[0]
+                        result["creation_date"] = creation_date
+                        
+                        # Calculate age
+                        try:
+                            c_date = datetime.strptime(creation_date, "%Y-%m-%d")
+                            result["domain_age_years"] = round((datetime.utcnow() - c_date).days / 365, 2)
+                        except:
+                            pass
+                            
+                    elif action == "expiration":
+                        result["expiration_date"] = date_str.split("T")[0]
+
+                # Extract registrar
+                entities = data.get("entities", [])
+                for entity in entities:
+                    roles = entity.get("roles", [])
+                    if "registrar" in roles:
+                        vcard = entity.get("vcardArray", [])
+                        if len(vcard) > 1:
+                            for item in vcard[1]:
+                                if item[0] == "fn":
+                                    result["registrar"] = item[3]
+                                    break
+                
+                print(f"[RDAP] Success for {domain}")
+                return result
+                
+        except Exception as e:
+            print(f"[RDAP] Error: {e}")
+            
         return result
-    
+
     try:
         print(f"[WHOIS] Looking up: {domain}")
         w = whois.whois(domain)
-        print(f"[WHOIS] Raw response type: {type(w)}")
-        
+        # ... (rest of the detailed whois logic if not on Render) ...
+        # Since I'm using replace_file_content, I'll just keep the existing logic reachable if RENDER is not set.
+        # But wait, the original code had `if os.environ.get("RENDER"): return result` which skipped it entirely.
+        # I am replacing that block.
+
         if w is None:
             print("[WHOIS] Response is None")
             return result
-        
-        # Debug: print raw data
-        print(f"[WHOIS] creation_date: {w.creation_date}")
-        print(f"[WHOIS] registrar: {w.registrar}")
         
         # Extract creation date
         creation_date = w.creation_date
@@ -97,11 +143,10 @@ def extract_domain_info(domain: str):
             privacy_keywords = ["privacy", "protect", "redacted", "proxy", "guard", "private"]
             result["whois_privacy"] = any(keyword in str(org).lower() for keyword in privacy_keywords)
         
-        print(f"[WHOIS] Final result: {result}")
         return result
         
     except Exception as e:
         # Log error but return defaults
         print(f"[WHOIS] ERROR for {domain}: {e}")
-        traceback.print_exc()
+        # traceback.print_exc()
         return result
