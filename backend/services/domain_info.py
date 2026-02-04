@@ -34,7 +34,11 @@ def extract_domain_info(domain: str):
         try:
             import requests
             rdap_url = f"https://rdap.org/domain/{domain}"
-            response = requests.get(rdap_url, timeout=5)
+            # Add User-Agent to avoid 403 Forbidden
+            headers = {
+                "User-Agent": "CyberSentinel/1.0 (Hack4Safety Project)"
+            }
+            response = requests.get(rdap_url, headers=headers, timeout=5)
             
             if response.status_code == 200:
                 data = response.json()
