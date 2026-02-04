@@ -95,7 +95,7 @@ graph TD;
 
 ## 🌍 Live Demo
 
-- **Frontend:** [https://cybersentinel.42web.io](https://cybersentinel.42web.io)  
+- **Frontend:** [https://cybersentinel-h4s.web.app](https://cybersentinel-h4s.web.app)  
 - **Backend API:** [https://cybersentinel-t8ac.onrender.com](https://cybersentinel-t8ac.onrender.com)  
 - **API Docs:** `/docs` (Swagger UI)
 
