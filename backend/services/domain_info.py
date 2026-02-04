@@ -7,6 +7,7 @@ import whois
 from datetime import datetime
 import socket
 import traceback
+import os
 
 
 def extract_domain_info(domain: str):
@@ -25,6 +26,11 @@ def extract_domain_info(domain: str):
         "registrar": "Unknown",
         "whois_privacy": False,
     }
+    
+    # Skip WHOIS on Render to prevent timeout/blocking (Port 43 is blocked)
+    if os.environ.get("RENDER"):
+        print("[WHOIS] Skipping WHOIS on Render environment (Port 43 blocked)")
+        return result
     
     try:
         print(f"[WHOIS] Looking up: {domain}")
